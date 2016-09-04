@@ -97,14 +97,14 @@ public class MainActivityFragment extends Fragment implements View.OnClickListen
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 curTime = (int)((float)(endTime - startTime)*progress/100);
                 curTxt.setText("" + curTime );
-                int x = left+(int)((float)(right - left)*progress/100);
-                if(x < left){
-                    x = left;
-                }else if(x >right){
-                    x = right;
-                }
-                Log.i("yds","" + progress + "," + x + "," + right);
-                curTxt.setX(x);
+//                int x = left+(int)((float)(right - left)*progress/100);
+//                if(x < left){
+//                    x = left;
+//                }else if(x >right){
+//                    x = right;
+//                }
+//                Log.i("yds","" + progress + "," + x + "," + right);
+//                curTxt.setX(x);
             }
 
             @Override

@@ -20,7 +20,6 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         this.getSystemService(Context.WINDOW_SERVICE);
-        Handler
     }
 
     @Override

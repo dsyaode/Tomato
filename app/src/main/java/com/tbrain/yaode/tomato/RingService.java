@@ -1,17 +1,23 @@
 package com.tbrain.yaode.tomato;
 
+import android.annotation.TargetApi;
 import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.widget.RemoteViews;
 
 import java.util.Calendar;
 
@@ -54,6 +60,8 @@ public class RingService extends Service {
                     this.sendEmptyMessage(2);
                 }
 
+                putServiceToForeground(remainTime/1000);
+
             }else if(message.what == 2){
                 Intent intent = new Intent();
                 intent.setAction(BROADCAST_RING);
@@ -61,8 +69,8 @@ public class RingService extends Service {
 
 //                mp.start();
                 playRing();
-
-                RingService.this.stopSelf();
+//                stopForeground(true);
+                closeRing();
             }
 
             super.handleMessage(message);
@@ -151,10 +159,36 @@ public class RingService extends Service {
 //        }, TOMATO_TIME);
         handler.removeCallbacksAndMessages(null);
         handler.sendEmptyMessage(1);
+
     }
 
     private void closeRing(){
         handler.removeCallbacksAndMessages(null);
+        NotificationManager nm = (NotificationManager) RingService.this.getSystemService(Context.NOTIFICATION_SERVICE);
+        nm.cancel(myID);
         stopSelf();
+    }
+
+    final static int myID = 1;
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    public void putServiceToForeground(long remainTime) {
+        String str = "剩下 ";
+        if(remainTime >= 60){
+            str = str + remainTime/60 + "m";
+            remainTime = remainTime%60;
+        }
+        str = str + remainTime%60 + "s";
+
+        Intent intent = new Intent(this, MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        Notification.Builder mBuilder =
+                new Notification.Builder(this.getApplicationContext())
+                        .setContentTitle(getResources().getString(R.string.app_name))
+                        .setContentText(str)
+                        .setSmallIcon(R.mipmap.tomato_alpha)
+                        .setContentIntent(pendingIntent);
+
+        NotificationManager nm = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+        nm.notify(myID, mBuilder.build());
     }
 }
