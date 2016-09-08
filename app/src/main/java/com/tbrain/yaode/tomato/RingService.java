@@ -172,7 +172,7 @@ public class RingService extends Service {
     final static int myID = 1;
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     public void putServiceToForeground(long remainTime) {
-        String str = "剩下 ";
+        String str = getResources().getString(R.string.remain) + " ";
         if(remainTime >= 60){
             str = str + remainTime/60 + "m";
             remainTime = remainTime%60;

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">tomato</string>
+    <string name="action_settings">Settings</string>
+    <string name="start_tomato">start tomato</string>
+    <string name="remain">remain</string>
+</resources>

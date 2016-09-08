@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Build;
@@ -163,6 +164,7 @@ public class MainActivityFragment extends Fragment implements View.OnClickListen
             RingService.closeService(this.getActivity());
             reset();
         }else{
+            saveLastTime(curTime);
             RingService.startService(this.getActivity(), curTime*60*1000);
         }
 
@@ -177,7 +179,7 @@ public class MainActivityFragment extends Fragment implements View.OnClickListen
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                setTime(defaultTime);
+                setTime(getLastTime());
             }
         }, 100);
     }
@@ -220,4 +222,16 @@ public class MainActivityFragment extends Fragment implements View.OnClickListen
         }
     }
 
+    private String TomatoTime = "TomatoTimie";
+    public int getLastTime(){
+        SharedPreferences sharedPreferences = this.getActivity().getPreferences(Context.MODE_PRIVATE);
+        return sharedPreferences.getInt(TomatoTime,defaultTime);
+    }
+
+    public void saveLastTime(int time){
+        SharedPreferences sharedPreferences = this.getActivity().getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(TomatoTime, time);
+        editor.commit();
+    }
 }

@@ -64,7 +64,7 @@
     <Button
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:text="开始吃番茄"
+        android:text="@string/start_tomato"
         android:id="@+id/btn_start"
         android:layout_centerInParent="true"
         android:textSize="24dp"
